@@ -13,11 +13,11 @@ class UserManager(BaseUserManager):
         return user
 
 class User(AbstractBaseUser):
-    avatar = models.ImageField(upload_to='avatars/', default= "avatars/avatar-default.png", blank=True, null=True)
+    avatar = models.TextField(default= "/media/avatars/avatar-default.png")
     name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     is_superuser = models.BooleanField(default=False)
-    last_login = models.DateTimeField(blank=True, null=True)
+    last_login = models.DateTimeField(auto_now_add=True)
 
     objects = UserManager()
     USERNAME_FIELD = 'email'
