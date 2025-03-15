@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'attachments',
+    'chats',
 
     # REST FRAMEWORK
     'rest_framework',
