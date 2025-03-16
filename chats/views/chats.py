@@ -32,6 +32,11 @@ class ChatsView(BaseView):
 
         to_user = self.get_user(email=email)
 
+        if to_user == request.user:
+            return Response({
+                'error': 'Não pode criar um chat com você mesmo'
+            })
+
         chat = self.chat_exists(user_id=request.user.id, to_user=to_user.id)
 
         if not chat:
@@ -64,7 +69,7 @@ class ChatView(BaseView):
             chat_id=chat_id
         )
 
-        deleted_chat = chat.objects.filter(
+        deleted_chat = Chat.objects.filter(
             id=chat_id,
             deleted_at__isnull=True
         ).update(
