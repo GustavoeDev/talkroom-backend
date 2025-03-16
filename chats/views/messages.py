@@ -1,3 +1,4 @@
+from pathlib import Path
 from core.socket import socket
 from core.utils.exceptions import ValidationError
 
@@ -74,7 +75,7 @@ class MessagesView(BaseView):
 
         if file:
             storage = FileSystemStorage(
-                settings.MEDIA_ROOT / 'files',
+                Path(settings.MEDIA_ROOT) / 'files', 
                 settings.MEDIA_URL + 'files'
             )
 
@@ -83,7 +84,7 @@ class MessagesView(BaseView):
             extension = file.name.split('.')[-1]
             size = file.size
 
-            if size < 100000000:
+            if size > 100000000:
                 raise ValidationError('O arquivo deve ter no máximo 100MB.')
             
             file = storage.save(f'{uuid.uuid4()}.{extension}', file)
@@ -99,8 +100,8 @@ class MessagesView(BaseView):
 
         elif audio:
             storage = FileSystemStorage(
-                settings.MEDIA_ROOT / 'audios',
-                settings.MEDIA_URL + 'audios'
+                Path(settings.MEDIA_ROOT) / 'files', 
+                settings.MEDIA_URL + 'files'
             )
 
             storage.save(f'{uuid.uuid4()}.mp3', audio)
