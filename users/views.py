@@ -86,10 +86,9 @@ class UserView(APIView):
         # Update avatar
         if avatar:
             content_type = avatar.content_type
-            extension = avatar.name.split('.')[-1]
-            
-            # Avatar validation
-            if content_type not in ['image/jpeg', 'image/png']:
+            extension = avatar.name.split('.')[-1].lower() 
+
+            if content_type not in ['image/jpeg', 'image/png'] or extension not in ['jpg', 'jpeg', 'png']:
                 raise ValidationError('Suportamos apenas imagens JPEG e PNG')
             
             # Configure storage
