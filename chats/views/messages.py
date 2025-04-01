@@ -100,12 +100,15 @@ class MessagesView(BaseView):
 
         elif audio:
             storage = FileSystemStorage(
-                Path(settings.MEDIA_ROOT) / 'files', 
+                Path(settings.MEDIA_ROOT) / 'files',
                 settings.MEDIA_URL + 'files'
             )
+            
+            filename = f'{uuid.uuid4()}.webm'  
 
-            storage.save(f'{uuid.uuid4()}.mp3', audio)
-            src = storage.url(audio)
+            saved_file = storage.save(filename, audio)
+
+            src = storage.url(saved_file) 
 
             attachment = AudioAttachment.objects.create(
                 src=src
